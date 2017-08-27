@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #title           :isilon_exceeded_disk_quotas_chk.py
 #description     :This script will gather disk quota information from Isilon arrays and reports disk quotas exceeded defined threshold value
-#author          :Govardhan Sunkishela
+#author          :Govardhan
 #date            :20170825
 #version         :1.2
 #usage           :python isilon_exceeded_disk_quotas_chk.py
