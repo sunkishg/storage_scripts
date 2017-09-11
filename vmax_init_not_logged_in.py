@@ -115,7 +115,7 @@ for array in symcfglist:
     try:
         list_logins(array)
     except Exception as error:
-        print "Unable to Run commands on Symmetrix Array: {0}\n Error:{1}".format(array,error)
+        print("Unable to Run commands on Symmetrix Array: {0}\n Error:{1}".format(array, error))
 else:
     convert_html()
     send_email()
