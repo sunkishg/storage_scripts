@@ -22,16 +22,16 @@ class Cmd(threading.Thread):
 
     def run(self):
         try:
-            self.prcs = subprocess.Popen(self.command, \
-                stdout=subprocess.PIPE, \
-                stderr=subprocess.PIPE, \
+            self.prcs = subprocess.Popen(self.command,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 universal_newlines=True)
             self.stdout, self.stderr = self.prcs.communicate()
         except Exception as e:
             self.prcs = None
             self.stderr = """unable to execute command!: {0}""".format(e)
 
-    def Run(self):
+    def runcmd(self):
         self.start()
         self.join(self.timeout)
 
@@ -55,7 +55,7 @@ def main():
         subprocess.call('clear', shell=True)
         if mycmd == 'q': quit()
 
-        output = Cmd(mycmd).Run()
+        output = Cmd(mycmd).runcmd()
         print(type(output))
 
 if __name__ == '__main__':
