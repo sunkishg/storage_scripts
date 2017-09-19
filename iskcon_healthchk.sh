@@ -111,3 +111,4 @@ cat $event >> $body
 mailx -a $out -s "Isilon daily health check report for `date '+%Y-%m-%d'`" user@domain.com < $body
 
 exit 0
+
