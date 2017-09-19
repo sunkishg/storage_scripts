@@ -7,14 +7,15 @@ from run_command import Cmd
 from re import search
 
 
-class Netapp(object):
+class NETAPP(object):
 	"""docstring"""
 	
 	def __init__(self,filer):
 		"""docstring"""
 		self.filer = filer
+		self.user = 'storageops'
 
-	def processout(command):
+	def processout(self, command):
 		"""docstring"""
 		output = Cmd(command).runcmd()
 		return output.get('stdout', '')
@@ -22,7 +23,7 @@ class Netapp(object):
 	def volspace(self):
 		"""docstring"""
 		volspace_dict = dict()
-		volspace_command = "ssh storageops@{0} df -g".format(self.filer)
+		volspace_command = "ssh {0}@{1} df -g".format(self.user, self.filer)
 		volspace_output = self.processout(volspace_command)
 
 		if volspace_output == '':
@@ -43,7 +44,7 @@ class Netapp(object):
 	def volinode(self):
 		"""docstring"""
 		volinode_dict = dict()
-		volinode_command = "ssh storageops@{0} df -i".format(self.filer)
+		volinode_command = "ssh {0}@{1} df -i".format(self.user, self.filer)
 		volinode_output = self.processout(volinode_command)
 
 		if volinode_output == '':
@@ -59,12 +60,25 @@ class Netapp(object):
 				volinode_dict[volume] = {'iused': iused, 'ifree': ifree, 'icap': icap}
 			return volinode_dict
 
+	def volume(self):
+		volume_space = self.volspace()
+		volume_inode = self.volinode()
+		volume_dict = dict()
+
+		for vol,volinfo in volume_space.iteritems():
+			volume_dict[vol] = volinfo
+			volume_dict[vol]['iused'] = volume_inode.get(vol).get('iused')
+			volume_dict[vol]['ifree'] = volume_inode.get(vol).get('ifree')
+			volume_dict[vol]['icap'] = volume_inode.get(vol).get('icap')
+
+		return volume_dict
+
+
 	def aggr(self):
 		"""docstring"""
 		aggr_dict = dict()
-		aggr_command = "ssh storageops{0} df -Ag".format(self.filer)
+		aggr_command = "ssh {0}@{1} df -Ag".format(self.user, self.filer)
 		aggr_output = self.processout(aggr_command)
-
 		if aggr_output == '':
 			return {'none': "yes"}
 		else:
@@ -77,5 +91,6 @@ class Netapp(object):
 				avail = aggrdata[3].split("GB")[0]
 				aggrcap = aggrdata[4].split("%")[0]
 				aggr_dict[aggrname] = {'total': total, 'used': used, 'avail': avail, 'aggrcap': aggrcap}
+
 			return aggr_dict
 

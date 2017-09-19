@@ -15,7 +15,7 @@ class Cal(object):
 
     def __init__(self,siunit, frmsize='b', tosize='g', bsize=1024):
         super(Cal, self).__init__()
-        self.siunit = siunit.strip()
+        self.siunit = siunit
         self.frmsize = frmsize.strip()
         self.tosize = tosize.strip()
         self.bsize = bsize
@@ -32,7 +32,6 @@ class Cal(object):
             self.myunit = float(self.siunit)
         except Exception as e:
             self.myunit = 0.0
-            print("SI Unit Conversion error: {0}".format(e))
 
         self.outsize = ceil((self.myunit / (self.bsize ** self.convert_unit)) *100) / 100
         return (self.outsize)
