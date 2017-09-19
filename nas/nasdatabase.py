@@ -4,7 +4,7 @@
 
 
 import sqlite3
-import os
+
 
 class DB(object):    
     """docstring"""
@@ -129,28 +129,9 @@ class DB(object):
             used = aggrinfo.get('used', 0)
             avail = aggrinfo.get('avail', 0)
             cap = aggrinfo.get('cap', 0)
-            self.cur.execute('''INSERT OR REPLACE INTO volume (array_id, filesystem, total, advisory, used, avail, cap)
-                VALUES (:array_id, :filesystem, :total, :advisory, :used, :avail, :cap)''',
-                {'array_id': array_id, 'filesystem': filesystem, 'total': total, 'advisory': advisory, 'used': used, 'avail': avail, 'cap': cap})
+            self.cur.execute('''INSERT OR REPLACE INTO storage_pool (array_id, aggrname, total, used, avail, cap)
+                VALUES (:array_id, :aggrname, :total, :used, :avail, :cap)''',
+                {'array_id': array_id, 'aggrname': aggrname, 'total': total, 'used': used, 'avail': avail, 'cap': cap})
             self.con.commit()
         self.close()
 
-
-
-
-
-def main():
-    mydata = {'disk1': {'total': 500, 'used': 81, 'avail': 383, 'cap': 18, 'advisory': 400}}
-    G = DB()
-    G.droptable()
-    G.createtable()
-    G.filesystemtable('apple','govardhan-macbook-pro', mydata)
-    data = {'cdlfas02c1': 'netapp', 'cdlfas02c2': 'netapp', 'cdlfas03c1': 'netapp', 'cdlfas03c2': 'netapp', 'cdlfas04c1': 'netapp', 'cdlfas04c2': 'netapp', 'cdlisilon01': 'isilon', 'dc01esisilon01': 'isilon', 'dc02esisilon01': 'isilon', '1605': 'vmax'}
-    for k,v in data.iteritems():
-        z = G.arraytable(v,k)
-        print z
-
-
-
-if __name__ == '__main__':
-    main()

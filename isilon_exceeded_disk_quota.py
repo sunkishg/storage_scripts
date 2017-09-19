@@ -8,6 +8,14 @@
 #usage           :python isilon_exceeded_disk_quotas_chk.py
 #notes           :
 #python_version  :2.6.9
+__author__ = "Govardhan Sunkishela"
+__copyright__ = "Copyright 2017, NAS Project"
+__credits__ = ["Bandaru S"]
+__license__ = "OPEN"
+__version__ = "1.0.1"
+__maintainer__ = "Govardhan"
+__email__ = "rob@spot.colorado.edu"
+__status__ = "Production"
 #==============================================================================
 
 # Import the modules needed to run the script.
